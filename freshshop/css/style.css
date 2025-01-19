@@ -2649,6 +2649,10 @@
     color: #fff;
     border: 1px solid #b0b435;
 }
+.products-single {
+    transition: all 0.3s ease;
+}
+
 
 
 
