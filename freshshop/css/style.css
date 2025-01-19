@@ -2809,24 +2809,53 @@ body.modal-open {
         text-align: center;
     }
 }
+.zoom-image {
+    transition: transform 0.3s ease;
+}
 
+.zoom-image:hover {
+    transform: scale(1.1);
+}
 
+.product-link {
+    text-decoration: none;
+}
+.zoom-container {
+    transition: transform 0.3s ease;
+}
 
+.zoom-container:hover {
+    transform: scale(1.05);
+}
 
+.product-link {
+    text-decoration: none;
+}
 
+.product-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
+.cart {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #b0b435;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.cart:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+.list-group-item.active {
+    background-color: #b0b435; /* Example active background color */
+    color: white;   /* Optional: text color */
+}
+html {
+    scroll-behavior: smooth;
+}
