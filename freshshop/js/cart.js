@@ -1,6 +1,27 @@
 // Initialize cart from LocalStorage or an empty array
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+// Function to update the cart badge
+function updateCartBadge() {
+    const badge = document.querySelector('.attr-nav .badge');
+    const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+    badge.textContent = totalItems;
+}
+
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notification-message');
+    notificationMessage.textContent = message;
+    notification.classList.remove('hidden');
+    notification.classList.add('show');
+
+    // Hide the notification after 3 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        notification.classList.add('hidden');
+    }, 3000);
+}
+
 // Function to add a product to the cart
 function addToCart(product) {
     const existingProduct = cart.find(item => item.id === product.id);
@@ -10,7 +31,9 @@ function addToCart(product) {
         cart.push({ ...product, quantity: 1 });
     }
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert("Product added to cart!");
+    
+    updateCartBadge();
+    showNotification("Produit ajouté au panier"); // Update badge after adding
 }
 
 // Function to display the cart on the cart page
@@ -33,12 +56,13 @@ function displayCart() {
                     <input type="number" value="${product.quantity}" min="1" onchange="updateQuantity(${index}, this.value)">
                 </td>
                 <td>$${productTotal.toFixed(2)}</td>
-                <td><button class="btn btn-danger" onclick="removeFromCart(${index})">Remove</button></td>
+                <td><button class="btn btn-danger" onclick="removeFromCart(${index})">Supprimer</button></td>
             </tr>
         `;
     });
 
     grandTotalElement.textContent = `$${grandTotal.toFixed(2)}`;
+    updateCartBadge(); // Update badge when displaying cart
 }
 
 // Function to update product quantity
@@ -55,6 +79,9 @@ function removeFromCart(index) {
     localStorage.setItem("cart", JSON.stringify(cart));
     displayCart();
 }
+
+// Initialize badge when the page loads
+updateCartBadge();
 
 // Load cart display if on the cart page
 if (window.location.pathname.includes("cart.html")) {
