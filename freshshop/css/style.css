@@ -2652,6 +2652,156 @@
 .products-single {
     transition: all 0.3s ease;
 }
+/* Masquer la case à cocher mais la laisser accessible */
+.modal-toggle {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+/* Style pour l'overlay */
+.modal-overlay {
+    display: none; /* Garder le display à none par défaut */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Afficher l'overlay si la checkbox est cochée */
+.modal-toggle:checked + .modal-overlay {
+    display: flex;
+    opacity: 1;
+    visibility: visible; /* Appliquer visibilité pour rendre l'élément visible */
+}
+
+/* Fermer la modal lorsqu'on clique en dehors (zone d'overlay) */
+.modal-overlay {
+    cursor: pointer;
+}
+
+/* Bloquer la propagation du clic à l'intérieur de la modal */
+.modal-content {
+    cursor: auto;
+    max-height: 90vh;  /* Limite la hauteur de la modal pour permettre un scroll à l'intérieur */
+    overflow-y: auto;  /* Permet le scroll à l'intérieur du modal */
+}
+
+/* Contenu de la modal */
+.modal-content {
+    background: #fff;
+    width: 80%;
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    text-align: left;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Image et texte dans la modal */
+.modal-body img {
+    width: 100%;
+    height: auto;
+    max-height: 300px; /* Réduire verticalement l'image */
+    object-fit: cover; /* Garder les proportions */
+    margin-bottom: 20px;
+}
+
+/* Texte dans la modal */
+.modal-body p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Bouton de fermeture */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 35px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s ease; /* Transition pour la couleur et la mise à l'échelle */
+}
+
+/* Effet au survol */
+.close-btn:hover {
+    color: #000000;
+    transform: scale(1.2); /* Agrandit le bouton au survol */
+}
+
+
+/* Bouton "En savoir plus" */
+.btn-read-more {
+    display: block;
+    margin: 10px auto;
+    padding: 8px 15px;
+    background-color: #b0b435;
+    color: #fff;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transition pour la couleur et l'échelle */
+}
+
+/* Animation au survol */
+.btn-read-more:hover {
+    background-color: #000000; /* Change la couleur au survol */
+    transform: scale(1.1); /* Agrandit légèrement le bouton */
+}
+
+/* Animation au focus (quand l'élément reçoit le focus) */
+.btn-read-more:focus {
+    outline: none; /* Retire le contour par défaut */
+    transform: scale(1.05); /* Légèrement agrandi */
+}
+
+/* Conteneur du blog */
+.blog-box {
+    position: relative;
+    overflow: hidden; /* Empêche l'image de dépasser lors du zoom */
+}
+
+/* Image du blog */
+.blog-img img {
+    transition: transform 0.3s ease-in-out; /* Transition douce pour l'effet de zoom */
+    width: 100%;
+    height: auto;
+}
+
+/* Zoom sur l'image lors du survol */
+.blog-box:hover .blog-img img {
+    transform: scale(1.1); /* Augmente la taille de l'image à 10% lors du survol */
+}
+
+/* Autres styles pour le blog */
+.blog-content {
+    padding: 15px;
+}
+
+.title-blog h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.title-blog p {
+    font-size: 14px;
+    color: #555;
+}
+/* Bloquer le scroll de la page principale */
+body.modal-open {
+    overflow: hidden;
+}
 
 
 
