@@ -2803,6 +2803,12 @@ body.modal-open {
     overflow: hidden;
 }
 
+@media (max-width: 768px) {
+    .shopping-box a {
+        width: 100%; /* Bouton prend toute la largeur sur petit écran */
+        text-align: center;
+    }
+}
 
 
 

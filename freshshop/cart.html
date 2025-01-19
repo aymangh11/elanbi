@@ -203,37 +203,38 @@
     <!-- Start Cart  -->
     <div class="cart-box-main">
         <div class="container">
-            
             <main class="container mt-5">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Nom Du Produit</th>
-                            <th>Prix</th>
-                            <th>Quantité</th>
-                            <th>Total</th>
-                            <th>Supprimer</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cart-items"></tbody>
-                </table>
-        
-                <div class="text-right">
+                <!-- Table responsive wrapper -->
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Image</th>
+                                <th>Nom Du Produit</th>
+                                <th>Prix</th>
+                                <th>Quantité</th>
+                                <th>Total</th>
+                                <th>Supprimer</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cart-items"></tbody>
+                    </table>
+                </div>
+    
+                <div class="text-right mt-4">
                     <h3>Grand Total: <span id="grand-total">$0.00</span></h3>
                 </div>
             </main>
-
-            
-
+    
             <div class="row my-5">
                 <div class="col-lg-8 col-sm-12"></div>
-                
-                <div class="col-12 d-flex shopping-box"><a href="checkout.html" class="ml-auto btn hvr-hover">Vérifier                </a> </div>
+                <div class="col-12 d-flex shopping-box">
+                    <a href="checkout.html" class="ml-auto btn btn-primary btn-lg hvr-hover">Vérifier</a>
+                </div>
             </div>
-
         </div>
     </div>
+    
     <!-- End Cart -->
 
     <!-- Start Instagram Feed  -->
