@@ -1,0 +1,310 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Admin Panel - Manage Blogs and Products</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 15px;
+      cursor: pointer;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-bottom: none;
+    }
+
+    .tab.active {
+      background: #007bff;
+      color: white;
+    }
+
+    .content {
+      display: none;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    form input, form textarea, form select, form button {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    form button {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .item {
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      background: #f9f9f9;
+    }
+
+    .item h3 {
+      margin: 0 0 10px;
+    }
+
+    .item button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    .edit-btn {
+      background: #28a745;
+      color: white;
+    }
+
+    .delete-btn {
+      background: #dc3545;
+      color: white;
+    }
+    .logout-btn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      background-color: #dc3545;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: #b71c1c;
+    }
+  </style>
+</head>
+<body>
+  <a href="logout.php" class="logout-btn">Logout</a>
+  <h1>Admin Panel</h1>
+  <div class="container">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('blogs')">Manage Blogs</div>
+      <div class="tab" onclick="switchTab('products')">Manage Products</div>
+    </div>
+    <div id="blogs" class="content active">
+      <h2>Manage Blogs</h2>
+      <form id="blog-form">
+        <input type="hidden" id="blog-id">
+        <input type="text" id="blog-title" placeholder="Title" required>
+        <textarea id="blog-description" placeholder="Short Description" required></textarea>
+        <textarea id="blog-content" placeholder="Content" required></textarea>
+        <input type="text" id="blog-image" placeholder="Image URL" required>
+        <button type="submit">Save Blog</button>
+      </form>
+      <div id="blog-list"></div>
+    </div>
+    <div id="products" class="content">
+      <h2>Manage Products</h2>
+      <form id="product-form">
+        <input type="hidden" id="product-id">
+        <input type="text" id="product-name" placeholder="Product Name" required>
+        <input type="number" id="product-price" placeholder="Price" step="0.01" required>
+        <input type="text" id="product-image" placeholder="Image URL" required>
+        <input type="text" id="product-link" placeholder="Product Page Link" required>
+        <select id="product-category" required>
+          <option value="">Select Category</option>
+          <option value="LIQUID NPK">LIQUID NPK</option>
+          <option value="AMINOS ACIDS">AMINOS ACIDS</option>
+          <option value="SEAWEED EXTRACTS">SEAWEED EXTRACTS</option>
+        </select>
+        <button type="submit">Save Product</button>
+      </form>
+      <div id="product-list"></div>
+    </div>
+  </div>
+
+  <script>
+    let blogs = [];
+    let products = [];
+
+    // Switch Tabs
+    function switchTab(tab) {
+      document.querySelectorAll('.tab, .content').forEach(element => {
+        element.classList.remove('active');
+      });
+      document.querySelector(`.tab[onclick="switchTab('${tab}')"]`).classList.add('active');
+      document.getElementById(tab).classList.add('active');
+    }
+
+    // Fetch blogs and products
+    fetch('blogs.json')
+      .then(response => response.json())
+      .then(data => {
+        blogs = data;
+        renderBlogs();
+      });
+
+    fetch('products.json')
+      .then(response => response.json())
+      .then(data => {
+        products = data;
+        renderProducts();
+      });
+
+    // Render Blogs
+    function renderBlogs() {
+      const blogList = document.getElementById('blog-list');
+      blogList.innerHTML = blogs.map((blog, index) => `
+        <div class="item">
+          <h3>${blog.title}</h3>
+          <p>${blog.description}</p>
+          <button class="edit-btn" onclick="editBlog(${index})">Edit</button>
+          <button class="delete-btn" onclick="deleteBlog(${index})">Delete</button>
+        </div>
+      `).join('');
+    }
+
+    // Render Products
+    function renderProducts() {
+      const productList = document.getElementById('product-list');
+      productList.innerHTML = products.map((product, index) => `
+        <div class="item">
+          <h3>${product.name}</h3>
+          <p>Price: $${product.price.toFixed(2)}</p>
+          <button class="edit-btn" onclick="editProduct(${index})">Edit</button>
+          <button class="delete-btn" onclick="deleteProduct(${index})">Delete</button>
+        </div>
+      `).join('');
+    }
+
+    // Add or Update Blog
+    document.getElementById('blog-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const id = document.getElementById('blog-id').value;
+      const title = document.getElementById('blog-title').value;
+      const description = document.getElementById('blog-description').value;
+      const content = document.getElementById('blog-content').value;
+      const image = document.getElementById('blog-image').value;
+
+      if (id) {
+        blogs[id] = { ...blogs[id], title, description, content, image };
+      } else {
+        blogs.push({ id: blogs.length + 1, title, description, content, image });
+      }
+
+      saveBlogs();
+    });
+
+    // Add or Update Product
+    document.getElementById('product-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const id = document.getElementById('product-id').value;
+      const name = document.getElementById('product-name').value;
+      const price = parseFloat(document.getElementById('product-price').value);
+      const image = document.getElementById('product-image').value;
+      const link = document.getElementById('product-link').value;
+      const category = document.getElementById('product-category').value;
+
+      if (id) {
+        products[id] = { ...products[id], name, price, image, link, category };
+      } else {
+        products.push({ id: products.length + 1, name, price, image, link, category });
+      }
+
+      saveProducts();
+    });
+
+    // Edit Blog
+    function editBlog(index) {
+      const blog = blogs[index];
+      document.getElementById('blog-id').value = index;
+      document.getElementById('blog-title').value = blog.title;
+      document.getElementById('blog-description').value = blog.description;
+      document.getElementById('blog-content').value = blog.content;
+      document.getElementById('blog-image').value = blog.image;
+    }
+
+    // Edit Product
+    function editProduct(index) {
+      const product = products[index];
+      document.getElementById('product-id').value = index;
+      document.getElementById('product-name').value = product.name;
+      document.getElementById('product-price').value = product.price;
+      document.getElementById('product-image').value = product.image;
+      document.getElementById('product-link').value = product.link;
+      document.getElementById('product-category').value = product.category;
+    }
+
+    // Delete Blog
+    function deleteBlog(index) {
+      blogs.splice(index, 1);
+      saveBlogs();
+    }
+
+    // Delete Product
+    function deleteProduct(index) {
+      products.splice(index, 1);
+      saveProducts();
+    }
+
+    // Save Blogs
+    function saveBlogs() {
+      fetch('save-blogs.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(blogs),
+      }).then(() => renderBlogs());
+    }
+
+    // Save Products
+    function saveProducts() {
+      fetch('save-products.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(products),
+      }).then(() => renderProducts());
+    }
+  </script>
+</body>
+</html>
