@@ -1,5 +1,7 @@
-<?php
+<?php 
 session_start();
+
+session_unset();
 session_destroy();
-header('Location: login.php');
-exit();
+
+header("Location: 1234567890.php");
