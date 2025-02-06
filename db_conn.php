@@ -1,8 +1,8 @@
 <?php
 
 $sname= "localhost";
-$unmae= "root";
-$password = "";
+$unmae= "ayman";
+$password = "ayman";
 
 $db_name = "elanbi";
 

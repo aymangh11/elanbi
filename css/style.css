@@ -2859,3 +2859,29 @@ body.modal-open {
 html {
     scroll-behavior: smooth;
 }
+/* Align nav items in the same line */
+.navbar-nav {
+    display: flex;
+    justify-content: flex-end; /* Ensure the items are aligned to the right */
+    align-items: center; /* Align items vertically */
+}
+
+/* Ensure that nav items behave similarly */
+.navbar-nav .nav-item {
+    display: flex;  /* Makes sure the content stays in the same line */
+    align-items: center;  /* Vertically center the icon and text */
+    margin-left: 20px;  /* Space between items */
+}
+
+/* Ensure the icon and text are inline */
+.navbar-nav .nav-item a {
+    display: flex;
+    align-items: center;  /* Center the icon and text vertically */
+    font-size: 16px;  /* Adjust size to match other text */
+}
+
+/* Adjust the badge position and size */
+.navbar-nav .nav-item a .badge {
+    margin-left: 5px; /* Space between icon and badge */
+    font-size: 12px;  /* Adjust badge font size */
+}
