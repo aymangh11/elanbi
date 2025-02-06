@@ -114,34 +114,26 @@
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
                         <li class="nav-item active"><a class="nav-link" href="index.html">Acceuil</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.html">À Propos De Nous</a></li>
-                        <li class="nav-item"><a class="nav-link" href="shop-detail.html">Boutique</a></li>
-                        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                        <li class="nav-item "><a class="nav-link" href="about.html">À Propos De Nous
+                        </a></li>
+                        <li class="nav-item"><a class="nav-link" href="shop-detail.html">Boutique
+                        <li class="nav-item"><a class="nav-link" href="blog.php">Programme Culture</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-                        <!-- Panier with icon and badge -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="cart.html">
-                                <i class="fa fa-shopping-bag"></i>
-                                <span class="badge badge-pill badge-danger">0</span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
-                
                 <!-- /.navbar-collapse -->
 
                 <!-- Start Atribute Navigation -->
                 <div class="attr-nav">
                     <ul>
-                        <li class="search"><a href="cart.html"><i class="fa fa-search"></i></a></li>
-                        <li class="side-menu">
+                        
+                        <li class="nav-link ">
                             <a href="cart.html">
                                 <i class="fa fa-shopping-bag"></i>
                                 <span class="badge">0</span>
-                                <p>Panier</p>
+                                
                             </a>
                         </li>
-                        
                     </ul>
                 </div>
                 <!-- End Atribute Navigation -->
@@ -170,7 +162,7 @@
     <div id="slides-shop" class="cover-slides">
         <ul class="slides-container">
             <li class="text-center">
-                <img src="images/banner-01.jpg" alt="">
+                <img src="images/banner-01.svg" alt="">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
@@ -182,7 +174,7 @@
                 </div>
             </li>
             <li class="text-center">
-                <img src="images/banner-02.jpg" alt="">
+                <img src="images/banner-02.svg" alt="">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
@@ -508,6 +500,41 @@
     <script src="js/custom.js"></script>
     <script src="js/cart.js"></script>
     <script async src='https://whats.stacklix.com/pixel/1face2ae522e44548ae2728bc17a1e48'></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const exchangeRate = 10; // 1 USD = 10 MAD (Adjust this if needed)
+            const currencySelect = document.getElementById("basic");
+            const priceElements = document.querySelectorAll(".why-text h5");
+    
+            // Store original prices in MAD
+            priceElements.forEach(priceElement => {
+                const priceText = priceElement.innerText.replace(/[^\d.]/g, ""); // Extract numeric price
+                priceElement.setAttribute("data-price-mad", priceText); // Save original MAD price
+            });
+    
+            // Function to update prices
+            function updatePrices(currency) {
+                priceElements.forEach(priceElement => {
+                    let priceMad = parseFloat(priceElement.getAttribute("data-price-mad"));
+    
+                    if (currency === "USD") {
+                        let priceUsd = (priceMad / exchangeRate).toFixed(2);
+                        priceElement.innerText = `$${priceUsd}`;
+                    } else {
+                        priceElement.innerText = `${priceMad} MAD`;
+                    }
+                });
+            }
+    
+            // Listen for currency changes
+            currencySelect.addEventListener("change", function () {
+                updatePrices(this.value);
+            });
+    
+            // Initialize prices based on default currency
+            updatePrices(currencySelect.value);
+        });
+    </script>
 </body>
 
 </html>

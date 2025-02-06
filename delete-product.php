@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-$conn = new mysqli('localhost', 'root', '', 'elanbi');
+$conn = new mysqli('localhost', 'ayman', 'ayman', 'elanbi');
 
 // Check for connection errors
 if ($conn->connect_error) {
