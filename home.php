@@ -4,7 +4,13 @@ $host = 'localhost';
 $db = 'elanbi';
 $user = 'ayman';
 $pass = 'ayman';
+session_start();
 
+// Check if the user is logged in
+if (!isset($_SESSION['id']) || !isset($_SESSION['email'])) {
+    header("Location: 1234567890.php");
+    exit();
+}
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
