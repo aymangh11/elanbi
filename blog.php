@@ -119,41 +119,43 @@ $blogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Start Main Top -->
     <header class="main-header">
         <!-- Start Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
-            <div class="container">
-                <!-- Start Header Navigation -->
-                <div class="navbar-header">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav" style="height: 90px; padding: 5px 0;">
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" 
+                    aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                    <a class="navbar-brand" href="index.html"><img src="images/ilogo.svg" class="logo" alt=""></a>
-                </div>
-                <!-- End Header Navigation -->
+                <a class="navbar-brand" href="index.html">
+                    <img src="images/ilogo.png" class="logo" alt="" style="height: 60px;">
+                </a>
+            </div>
+            <!-- End Header Navigation -->
 
-                 <!-- Collect the nav links, forms, and other content for toggling -->
-                 <div class="collapse navbar-collapse" id="navbar-menu">
-                    <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Acceuil</a></li>
-                        <li class="nav-item "><a class="nav-link" href="about.html">À Propos De Nous
-                        </a></li>
-                        <li class="nav-item"><a class="nav-link" href="shop-detail.html">Boutique
-                        <li class="nav-item active"><a class="nav-link" href="blog.php">Programme culture</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                    <li class="nav-item "><a class="nav-link" href="index.html">Acceuil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">À Propos De Nous</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shop-detail.html">Boutique</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="blog.php">Programme Culture</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
 
-                <!-- Start Atribute Navigation -->
-                <div class="attr-nav">
+               <!-- Start Atribute Navigation -->
+               <div class="attr-nav">
                     <ul>
-                        <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
-                        <li class="side-menu">
-							<a href="cart.html>
-								<i class="fa fa-shopping-bag"></i>
-								<span class="badge">0</span>
-								<p>Panier</p>
-							</a>
-						</li>
+                        
+                        <li class="nav-link ">
+                            <a href="cart.html">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span class="badge">0</span>
+                                
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- End Atribute Navigation -->
@@ -405,11 +407,11 @@ body.modal-open {
 </style>
 
 <!-- Start Instagram Feed  -->
-    <div class="instagram-box">
+<div class="instagram-box">
         <div class="main-instagram owl-carousel owl-theme">
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="images/instagram-img-01.jpg" alt="" />
+                    <img src="images/instagram-img-01.svg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -417,7 +419,7 @@ body.modal-open {
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="images/instagram-img-02.jpg" alt="" />
+                    <img src="images/instagram-img-02.svg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -425,7 +427,7 @@ body.modal-open {
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="images/instagram-img-03.jpg" alt="" />
+                    <img src="images/instagram-img-03.svg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -433,7 +435,7 @@ body.modal-open {
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="images/instagram-img-04.jpg" alt="" />
+                    <img src="images/instagram-img-04.svg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -441,7 +443,7 @@ body.modal-open {
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="images/instagram-img-05.jpg" alt="" />
+                    <img src="images/instagram-img-11.svg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -449,7 +451,7 @@ body.modal-open {
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="images/instagram-img-06.jpg" alt="" />
+                    <img src="images/instagram-img-06.svg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -457,7 +459,7 @@ body.modal-open {
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="images/instagram-img-07.jpg" alt="" />
+                    <img src="images/instagram-img-07.svg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -465,7 +467,7 @@ body.modal-open {
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="images/instagram-img-08.jpg" alt="" />
+                    <img src="images/instagram-img-08.svg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -473,7 +475,7 @@ body.modal-open {
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="images/instagram-img-09.jpg" alt="" />
+                    <img src="images/instagram-img-09.svg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -481,7 +483,7 @@ body.modal-open {
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="images/instagram-img-05.jpg" alt="" />
+                    <img src="images/instagram-img-10.svg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>

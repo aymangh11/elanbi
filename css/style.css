@@ -587,6 +587,7 @@
      nav.navbar.navbar-inverse .navbar-nav > li > a{
          border-top: solid 1px #303030;
          border-bottom: solid 1px #303030;
+         
     }
      nav.navbar.navbar-inverse ul.nav li.dropdown ul.dropdown-menu > li > a{
          color: #999;
@@ -1527,7 +1528,7 @@
 }
 /*------------------------------------------------------------------ All Pages -------------------------------------------------------------------*/
  .all-title-box{
-     background: url("../images/all-bg-title.jpg") no-repeat center center;
+     background: url("../images/all-bg-title2.jpg") no-repeat center center;
      -webkit-background-size: cover;
      -moz-background-size: cover;
      -ms-background-size: cover;
