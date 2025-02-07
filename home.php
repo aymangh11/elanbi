@@ -106,6 +106,7 @@ $blogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>Admin Panel - Manage Blogs</title>
     <style>
         body {
@@ -383,6 +384,12 @@ button {
         }
 
         form button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        form .test {
             background: #007bff;
             color: white;
             border: none;
@@ -469,7 +476,7 @@ button {
     }
 
     #save-composition-btn.active {
-        background:rgb(13, 125, 229); /* Green */
+        background: #28a745; /* Green */
         color: white;
         cursor: pointer;
         opacity: 1;
@@ -481,94 +488,157 @@ button {
         pointer-events: none; /* Prevent clicks */
         opacity: 0.7;
     }
+    
+
+
+    .icon-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .icon-box {
+            width: 150px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .icon-box:hover {
+            transform: scale(1.05);
+        }
+
+        .products-icon {
+            background-color: #28a745;
+        }
+
+        .blogs-icon {
+            background-color: #007bff;
+        }
+
+        .icon-box i {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        .content-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .active {
+            display: block;
+        }
+
+
+
+
+    
 
     </style>
 </head>
 <body>
     <!-- Logout Button -->
-    <a href="logout.php" class="logout-btn">Logout</a>
+    <a href="logout.php" class="logout-btn">Déconnexion</a>
 
     <!-- Admin Panel Header -->
-    <h1>Admin Panel</h1>
-
-    <div class="container">
-        <div class="tabs">
-            <div class="tab active" onclick="switchTab('blogs')">Manage Blogs</div>
+    <h1>Panneau d'administration</h1>
+    <div class="icon-container">
+        <div class="icon-box blogs-icon" onclick="showSection('blog-section')">
+            <i class="fa-solid fa-newspaper"></i>
+            <span>Blog</span>
         </div>
-
-         <!-- Blogs Management Section -->
-         <div id="blogs" class="content active">
-            <h2>Manage Blogs</h2>
-            <form id="blog-form" enctype="multipart/form-data">
-                <input type="hidden" id="blog-id">
-                <input type="text" id="blog-title" placeholder="Title" required>
-                <textarea id="blog-description" placeholder="Short Description" required></textarea>
-                <textarea id="blog-content" placeholder="Content" required></textarea>
-                <input type="file" id="blog-image" required>
-                <button type="submit">Save Blog</button>
-            </form>
-
-            <h1>Blogs Disponibles</h1>
-            <!-- Success Message -->
-            <div id="success-message"></div>
-
-            <!-- List of blogs -->
-<div id="blogs-list">
-    <?php foreach ($blogs as $blog): ?>
-        <div class="blog" id="blog-<?php echo $blog['id']; ?>">
-            <img src="<?php echo htmlspecialchars($blog['image_url']); ?>" alt="Blog Image">
-            <h2><?php echo htmlspecialchars(html_entity_decode($blog['title'])); ?></h2>
-            <!-- Buttons container -->
-            <div class="buttons">
-                <button class="edit-btn" onclick="editBlog(<?php echo $blog['id']; ?>)">Edit</button>
-                <button class="delete-btn" onclick="deleteBlog(<?php echo $blog['id']; ?>)">Delete</button>
-            </div>
+        <div class="icon-box products-icon" onclick="showSection('product-section')">
+            <i class="fa-solid fa-box"></i>
+            <span>Produit</span>
         </div>
-    <?php endforeach; ?>
-</div>
+      
+    </div>
 
-<div class="container">
-        <h1>Manage Products</h1>
+    <!-- Blog Section (Default Visible) -->
+<div id="blog-section" class="container content-section active">
+    
 
-        <!-- Notification -->
-        <div id="notification" class="notification"></div>
-
-        <!-- Product Form -->
-        <form id="product-form" enctype="multipart/form-data">
-            <input type="hidden" id="product-id">
-            <input type="text" id="product-name" placeholder="Product Name" style="width: 97.5%;" required>
-            <input type="number" id="product-price" placeholder="Price" step="0.01" style="width: 97.5%;" required>
-            <textarea id="composition-text" placeholder="Composition" required rows="4" style="width: 100%;"></textarea>
-            <input type="file" id="product-image" accept="image/*" style="width: 99%;" required>
-            <input type="text" id="product-link" placeholder="Product Link" style="width: 97.5%;" required>
-            <select id="product-category" style="width: 100%;" required>
-                <option value="">Select Category</option>
-                <option value="LIQUID NPK">LIQUID NPK</option>
-                <option value="AMINOS ACIDS">AMINOS ACIDS</option>
-                <option value="SEAWEED EXTRACTS">SEAWEED EXTRACTS</option>
-                <option value="POWDER NPK">POWDER NPK</option>
-                <option value="Paste NPK">Paste NPK</option>
-                <option value="SPECIAL FERTILIZERS">SPECIAL FERTILIZERS</option>
-                <option value="SOIL Ammendement">SOIL Ammendement</option>
-                <option value="PGR">PGR</option>
-                <option value="Phosphite Fertilizers">Phosphite Fertilizers</option>
-            </select>
-            <button type="submit" id="save-product-btn">Save Product</button>
-<button id="save-composition-btn" disabled>Save Composition</button>
+    <!-- Blogs Management Section -->
+    <div id="blogs" class="content active">
+        <h2>Gérer les blogs</h2>
+        <form id="blog-form" enctype="multipart/form-data">
+            <input type="hidden" id="blog-id">
+            <input type="text" id="blog-title" placeholder="Titre" required>
+            <textarea id="blog-description" placeholder="Description" required></textarea>
+            <textarea id="blog-content" placeholder="Contenu" required></textarea>
+            <input type="file" id="blog-image" required>
+            <button class="test" type="submit">Enregistrer le blog</button>
         </form>
 
-        <!-- Spinner -->
-        <div class="spinner" id="spinner"></div>
+        <h2>Liste des blogs disponibles</h2>
+        <!-- Success Message -->
+        <div id="success-message"></div>
 
-        <!-- Product List -->
-        <h2>Saved Products</h2>
-        <div id="product-list" class="product-list"></div>
-        <div id="composition-popup" style="display: none;">
-    
-    <button class="toggle-btn" onclick="saveComposition()">Save Composition</button>
-    <button class="delete-btn" onclick="closeComposition()">Cancel</button>
-</div>
+        <!-- List of blogs -->
+        <div id="blogs-list">
+            <?php foreach ($blogs as $blog): ?>
+                <div class="blog" id="blog-<?php echo $blog['id']; ?>">
+                    <img src="<?php echo htmlspecialchars($blog['image_url']); ?>" alt="Blog Image">
+                    <h2><?php echo htmlspecialchars(html_entity_decode($blog['title'])); ?></h2>
+                    <!-- Buttons container -->
+                    <div class="buttons">
+                        <button class="edit-btn" onclick="editBlog(<?php echo $blog['id']; ?>)">Modifier</button>
+                        <button class="delete-btn" onclick="deleteBlog(<?php echo $blog['id']; ?>)">Supprimer</button>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
+</div>
+
+<!-- Product Section (Initially Hidden) -->
+<div id="product-section" class="container content-section">
+    <h2>Gérer les produits</h2>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Product Form -->
+    <form id="product-form" enctype="multipart/form-data">
+        <input type="hidden" id="product-id">
+        <input type="text" id="product-name" placeholder="Nom du produit" style="width: 97.5%;" required>
+        <input type="number" id="product-price" placeholder="Prix" step="0.01" style="width: 97.5%;" required>
+        <textarea id="composition-text" placeholder="Composition" required rows="4" style="width: 100%;"></textarea>
+        <input type="file" id="product-image" accept="image/*" style="width: 99%;" required>
+        <input type="text" id="product-link" placeholder="Lien du produit" style="width: 97.5%;" required>
+        <select id="product-category" style="width: 100%;" required>
+            <option value="">Select Category</option>
+            <option value="LIQUID NPK">LIQUID NPK</option>
+            <option value="AMINOS ACIDS">AMINOS ACIDS</option>
+            <option value="SEAWEED EXTRACTS">SEAWEED EXTRACTS</option>
+            <option value="POWDER NPK">POWDER NPK</option>
+            <option value="Paste NPK">Paste NPK</option>
+            <option value="SPECIAL FERTILIZERS">SPECIAL FERTILIZERS</option>
+            <option value="SOIL Ammendement">SOIL Ammendement</option>
+            <option value="PGR">PGR</option>
+            <option value="Phosphite Fertilizers">Phosphite Fertilizers</option>
+        </select>
+        <button type="submit" id="save-product-btn">Enregistrer le produit</button>
+        <button id="save-composition-btn" disabled>Enregistrer la composition</button>
+    </form>
+
+    <!-- Spinner -->
+    <div class="spinner" id="spinner"></div>
+
+    <!-- Product List -->
+    <h2>Liste des produits disponibles</h2>
+    <div id="product-list" class="product-list"></div>
+</div>
 
 <script>
     // Handle form submission and save blog
@@ -759,9 +829,9 @@ function closeComposition() {
                         <div class="item">
                             <h3>${product.name} - $${product.price} ${product.visible ? '' : '[Hidden]'}</h3>
                             <div>
-                                <button class="edit-btn" onclick="editProduct(${product.id})">Edit</button>
-                                <button class="delete-btn" onclick="deleteProduct(${product.id})">Delete</button>
-                                <button class="toggle-btn" onclick="toggleVisibility(${product.id}, ${!product.visible})">${product.visible ? 'Hide' : 'Show'}</button>
+                                <button class="edit-btn" onclick="editProduct(${product.id})">Modifier</button>
+                                <button class="delete-btn" onclick="deleteProduct(${product.id})">Supprimer</button>
+                                <button class="toggle-btn" onclick="toggleVisibility(${product.id}, ${!product.visible})">${product.visible ? 'Cacher' : 'Montrer'}</button>
                                 
                             </div>
                         </div>
@@ -940,6 +1010,19 @@ saveCompositionBtn.addEventListener('click', function () {
 
         // Fetch products on page load
         fetchProducts();
+        function showSection(sectionId) {
+    // Hide both sections
+    document.getElementById('blog-section').style.display = 'none';
+    document.getElementById('product-section').style.display = 'none';
+
+    // Show the selected section
+    document.getElementById(sectionId).style.display = 'block';
+}
+
+// Ensure the blog section is visible on page load
+document.addEventListener("DOMContentLoaded", function() {
+    showSection('blog-section');
+});
 </script>
 </body>
 </html>
