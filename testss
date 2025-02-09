@@ -1,68 +1,4 @@
-<?php
-header("Content-Type: application/json");
 
-// Database connection
-$host = "localhost";
-$dbname = "elanbi";
-$username = "ayman";
-$password = "ayman";
-
-$conn = new mysqli($host, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    echo json_encode(["success" => false, "error" => "Database connection failed"]);
-    exit();
-}
-
-
-// Get JSON data from request
-$data = json_decode(file_get_contents("php://input"), true);
-
-if (!isset($data['productId'])) {
-    echo json_encode(["success" => false, "error" => "Missing required fields"]);
-    exit();
-}
-
-$productId = intval($data['productId']); // Ensure it's an integer
-
-// Fetch product details from the database
-$sql = "SELECT name, link, image, price, composition FROM products WHERE id = ? ";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $productId);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows === 0) {
-    echo json_encode(["success" => false, "error" => "Product not found"]);
-    exit();
-}
-
-$product = $result->fetch_assoc();
-$productName = htmlspecialchars($product['name']);
-$productLink = preg_replace('/[^a-zA-Z0-9_-]/', '', $product['link']);
-$productImage = htmlspecialchars($product['image']);
-$productPrice = number_format($product['price'], 2);
-$composition = nl2br(htmlspecialchars($product['composition']));
-
-// Fetch related products (limit to 4)
-$sql_related = "SELECT name, link, image, price FROM products WHERE id != ? ORDER BY RAND() LIMIT 4";
-$stmt_related = $conn->prepare($sql_related);
-$stmt_related->bind_param("i", $productId);
-$stmt_related->execute();
-$result_related = $stmt_related->get_result();
-
-// Store related products in an array
-$relatedProducts = [];
-while ($row = $result_related->fetch_assoc()) {
-    $relatedProducts[] = $row;
-}
-
-// Define the file path
-$filePath = $productLink ;
-
-// Generate HTML content
-$htmlContent = "
 <!DOCTYPE html>
 <html lang='en'>
 <!-- Basic -->
@@ -71,7 +7,7 @@ $htmlContent = "
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>$productName</title>
+    <title>test</title>
     <meta name='keywords' content=''>
     <meta name='description' content=''>
     <meta name='author' content=''>
@@ -125,49 +61,44 @@ $htmlContent = "
     <!-- Start Main Top -->
     <header class='main-header'>
         <!-- Start Navigation -->
-        <nav class='navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav'style='height: 90px; padding: 5px 0;'>
-        <div class='container'>
-            <!-- Start Header Navigation -->
-            <div class='navbar-header'>
-                <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbar-menu' 
-                    aria-controls='navbars-rs-food' aria-expanded='false' aria-label='Toggle navigation'>
-                    <i class='fa fa-bars'></i>
-                </button>
-                <a class='navbar-brand' href='index.html'>
-                    <img src='images/ilogo.png' class='logo' alt='' style='height: 60px;'>
-                </a>
-            </div>
+        <nav class='navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav'>
+            <div class='container'>
+                <!-- Start Header Navigation -->
+                <div class='navbar-header'>
+                    <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbar-menu' aria-controls='navbars-rs-food' aria-expanded='false' aria-label='Toggle navigation'>
+                        <i class='fa fa-bars'></i>
+                    </button>
+                    <a class='navbar-brand' href='index.html'><img src='images/ilogo.svg' class='logo' alt=''></a>
+                </div>
                 <!-- End Header Navigation -->
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class='collapse navbar-collapse' id='navbar-menu'>
-                <ul class='nav navbar-nav ml-auto' data-in='fadeInDown' data-out='fadeOutUp'>
-                    <li class='nav-item'><a class='nav-link' href='index.html'>Acceuil</a></li>
-                    <li class='nav-item'><a class='nav-link' href='about.html'>À Propos De Nous</a></li>
-                    <li class='nav-item active'><a class='nav-link' href='shop-detail.html'>Boutique</a></li>
-                    <li class='nav-item'><a class='nav-link' href='blog.php'>Programme Culture</a></li>
-                    <li class='nav-item'><a class='nav-link' href='contact-us.html'>Contact</a></li>
-                </ul>
-            </div>
+                    <ul class='nav navbar-nav ml-auto' data-in='fadeInDown' data-out='fadeOutUp'>
+                        <li class='nav-item'><a class='nav-link' href='index.html'>Acceuil</a></li>
+                        <li class='nav-item'><a class='nav-link' href='about.html'>À Propos De Nous</a></li>
+                        <li class='nav-item active'><a class='nav-link' href='shop-detail.html'>Boutique</a></li>
+                        <li class='nav-item'><a class='nav-link' href='blog.html'>Blog</a></li>
+                        <li class='nav-item'><a class='nav-link' href='contact-us.html'>Contact</a></li>
+                    </ul>
+                </div>
                 <!-- /.navbar-collapse -->
 
+                <!-- Start Atribute Navigation -->
                 <div class='attr-nav'>
                     <ul>
-                        
-                        <li class='nav-link'>
+                        <li class='search'><a href='#'><i class='fa fa-search'></i></a></li>
+                        <li class='side-menu'>
                             <a href='cart.html'>
                                 <i class='fa fa-shopping-bag'></i>
                                 <span class='badge'>0</span>
-                                
+                                <p>Panier</p>
                             </a>
                         </li>
                     </ul>
                 </div>
                 <!-- End Atribute Navigation -->
             </div>
-            <!-- Start Side Menu -->
-            
-            <!-- End Side Menu -->
         </nav>
         <!-- End Navigation -->
     </header>
@@ -209,19 +140,25 @@ $htmlContent = "
                     <div id='carousel-example-1' class='single-product-slider carousel slide' data-ride='carousel'>
                         <div class='carousel-inner' role='listbox'>
                             <div class='carousel-item active'>
-                                <img class='d-block w-100' src='$productImage' alt='$productName'>
+                                <img class='d-block w-100' src='uploads/img-pro-03.svg' alt='test'>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class='col-xl-7 col-lg-7 col-md-6'>
                     <div class='single-product-details'>
-                        <h2>$productName</h2>
+                        <h2>test</h2>
                         <h4>Composition:</h4>
-                        <p>$composition</p>
+                        <p>AAAAA<br />
+SADDD<br />
+ADA<br />
+ADDA<br />
+<br />
+<br />
+ADDADAD</p>
                         <div class='price-box-bar'>
                             <div class='cart-and-bay-btn'>
-                                <a class='btn hvr-hover' href='#' onclick=\"addToCart({ id: $productId, name: '$productName', price: $productPrice, image: '$productImage' })\">Ajouter Au Panier</a>
+                                <a class='btn hvr-hover' href='#' onclick="addToCart({ id: 59, name: 'test', price: 14.00, image: 'uploads/img-pro-03.svg' })">Ajouter Au Panier</a>
                             </div>
                         </div>
                     </div>
@@ -233,32 +170,7 @@ $htmlContent = "
                     <div class='title-all text-center'>
                         <h1>Produits Associés</h1>
                     </div>
-                    <div class='row special-list'>";
-
-// Loop through related products and add them dynamically
-foreach ($relatedProducts as $related) {
-    $relatedName = htmlspecialchars($related['name']);
-    $relatedLink = preg_replace('/[^a-zA-Z0-9_-]/', '', $related['link']);
-    $relatedImage = htmlspecialchars($related['image']);
-    $relatedPrice = number_format($related['price'], 2);
-
-    $htmlContent .= "
-                        <div class='col-lg-3 col-md-6 special-grid best-seller'>
-                            <div class='products-single fix'>
-                                <a href='$relatedLink.html' class='product-link'>
-                                    <div class='box-img-hover'>
-                                        <img src='$relatedImage' class='img-fluid' alt='$relatedName'>
-                                    </div>
-                                    <div class='why-text'>
-                                        <h4>$relatedName</h4>
-                                        <h5>\$$relatedPrice</h5>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>";
-}
-
-$htmlContent .= "
+                    <div class='row special-list'>
                     </div>
                 </div>
             </div>
@@ -337,17 +249,4 @@ $htmlContent .= "
     <script src='js/cart.js'></script>
 </body>
 
-</html>";
-
-// Write content to the file
-if (file_put_contents($filePath, $htmlContent) !== false) {
-    echo json_encode(["success" => true, "file" => $filePath]);
-} else {
-    echo json_encode(["success" => false, "error" => "Failed to save file"]);
-}
-
-// Close database connection
-$stmt->close();
-$stmt_related->close();
-$conn->close();
-?>
+</html>
